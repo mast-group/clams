@@ -1,6 +1,12 @@
-API Summariser
--------------------------------
-TODO add description.
+CLAMS
+-----
+CLAMS is an approach for mining API source code snippets that lies between snippet and sequence mining methods, which ensures lower complexity and thus could apply more readily to other languages.
+
+This is an implementation of the API miner from our paper:
+
+*Summarizing Software API Usage Examples using Clustering Techniques*
+
+N. Katirtzis, T. Diamantopoulos, and C. Sutton. ETAPS/FASE 2018.
 
 ## Structure of the project
 `main.py`: This is the main function of the project.
@@ -9,7 +15,7 @@ TODO add description.
 
 `/data`: Contains the dataset+examples and results for clams and other systems being used for the evaluation.
 
-`/libs`: Contains any third-party libraries used in the implementation (excludes any Python libraries).
+`/libs`: Contains any third-party libraries used in the implementation (excluding any Python libraries).
 
 `/results`: The results of the system will be stored here.
 
@@ -71,4 +77,3 @@ python main.py
 ```
 
 The results will be stored in the `results` directory.
-
