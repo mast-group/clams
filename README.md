@@ -1,12 +1,12 @@
-CLAMS
+CLAMS: Clustering for API Mining of Snippets
 -----
 CLAMS is an approach for mining API source code snippets that lies between snippet and sequence mining methods, which ensures lower complexity and thus could apply more readily to other languages.
 
 This is an implementation of the API miner from our paper:
 
-*Summarizing Software API Usage Examples using Clustering Techniques*
-
-N. Katirtzis, T. Diamantopoulos, and C. Sutton. ETAPS/FASE 2018.
+```
+To be added
+```
 
 ## Structure of the project
 `main.py`: This is the main function of the project.
