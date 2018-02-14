@@ -11,10 +11,12 @@
     <title>CLAMS Webpage</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/clams.css" rel="stylesheet">
+    <link href="../css/clams.css" rel="stylesheet">
+
+
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -57,33 +59,37 @@
     </div>
 
     <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-lg-4">
-          <h2>About CLAMS</h2>
-          <p>CLAMS mines API usage examples in the form of source code snippets, from client code. It uses clustering techniques and summarization algorithm to mine useful, concise, and readable snippets.</p>
-          <p><a class="btn btn-default" href="/clams/about/">View details &raquo;</a></p>
-        </div>
-        <div class="col-lg-4">
-          <h2>Documentation</h2>
-          <p>Here you will find a link to the source code of CLAMS as well as installation and usage instructions.</p>
-          <p><a class="btn btn-default" href="/clams/documentation/">View details &raquo;</a></p>
-       </div>
-        <div class="col-lg-4">
-          <h2>User Survey</h2>
-          <p>An overview of the pilot user survey conducted in a team of 5 Java developers at Hotels.com to evaluate whether our approach can be useful when developing software.</p>
-          <p><a class="btn btn-default" href="/clams/user-survey/">View details &raquo;</a></p>
-        </div>
-      </div>
+      <h1 id="about">Paper Data</h1>
 
-      <hr>
-    </div> <!-- /container -->
+      <table class="table data-table">
+        <thead>
+          <tr>
+            <th scope="col">Data Object</th>
+            <th scope="col">Size</th>
+            <th scope="col">Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Dataset</td>
+            <td>21.2 MB</td>
+            <td>Tar file</td><td><a class="btn btn-default" href="https://github.com/mast-group/clams/raw/master/data/dataset.tar.xz"><span class="glyphicon glyphicon-download"></span> Download...</a></td>
+          </tr>
+          <tr>
+            <td>Results</td>
+            <td>42.2 MB</td>
+            <td>Tar file</td>
+            <td><a class="btn btn-default" href="https://github.com/mast-group/clams/raw/master/data/results.tar.xz"><span class="glyphicon glyphicon-download"></span> Download...</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
   </body>
 </html>

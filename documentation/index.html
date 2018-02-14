@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="ico/favicon.png">
+
+    <title>CLAMS Webpage</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/clams.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">CLAMS</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="/clams/about/">About</a></li>
+            <li><a href="/clams/documentation/">Documentation</a></li>
+            <li><a href="/clams/data/">Data</a></li>
+            <li><a href="/clams/user-survey/">User Survey</a></li>
+            <li><a href="/clams/team-members/">Team Members</a></li>
+          </ul>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>CLAMS</h1>
+        <p>A novel approach for mining API Usage Examples in the form of source code snippets, from client code</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <h1 id="documentation">Documentation</h1>
+      <h2 id="source-code">Source Code</h2>
+      <p>The source code of CLAMS is available at <a href="https://github.com/mast-group/clams">https://github.com/mast-group/clams</a>.</p>
+      
+      <h2 id="installation-instructions">Installation Instructions</h2>
+      <p>Clone the project:</p>
+      <pre><code>git clone https://github.com/mast-group/clams.git</code></pre>
+
+      <p>Cd to the project's directory:</p>
+      <pre><code>cd clams</code></pre>
+      
+      <p>Install Java 8:</p>
+      <pre><code>sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer</code></pre>
+
+      <p>Install/Configure <a href="https://www.anaconda.com/download/#linux">Anaconda 2</a>:</p>
+      <pre><code>wget https://repo.continuum.io/archive/Anaconda2-4.2.0-Linux-x86_64.sh
+bash Anaconda2-4.2.0-Linux-x86_64.sh -b -p ~/anaconda
+rm Anaconda2-4.2.0-Linux-x86_64.sh
+
+//replace &lt;username&gt; with your username before running the following command
+echo 'export PATH="/home/&lt;username&gt;/anaconda/bin:$PATH' >> ~/.bashrc 
+source .bashrc
+conda update conda
+conda config --add channels conda-forge</code></pre>
+
+      <p>Install the <a href="http://astyle.sourceforge.net/">Artistic Style</a> formatter:</p>
+      <pre><code>mkdir libs/astyle
+sudo apt-get install astyle
+ln -s /usr/bin/astyle ./libs/astyle/astyle</code></pre>
+
+      <p>Install <a href="http://www.srcml.org/">srcML</a> (remove <code>-64</code> for 32 bit OS):</p>
+      <pre><code>mkdir libs/srcml
+wget http://131.123.42.38/lmcrs/beta/srcML-Ubuntu14.04-64.deb
+sudo dpkg -i srcML-Ubuntu14.04-64.deb
+rm srcML-Ubuntu14.04-64.deb
+ln -s /usr/bin/srcml ./libs/srcml/srcml</code></pre>
+
+      <p>Install python dependencies using <code>conda</code> and <code>requirements.txt</code>:</p>
+      <pre><code>conda install --file requirements.txt</code></pre>
+
+    <h2 id="usage">Usage</h2>
+    <p>You can run the application using the following command:</p>
+    <pre><code>python main.py</code></pre>
+    <p>The results will be stored in the <code>results</code> directory.</p>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+  </body>
+</html>

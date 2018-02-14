@@ -11,10 +11,12 @@
     <title>CLAMS Webpage</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/clams.css" rel="stylesheet">
+    <link href="../css/clams.css" rel="stylesheet">
+
+
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -57,33 +59,26 @@
     </div>
 
     <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-lg-4">
-          <h2>About CLAMS</h2>
-          <p>CLAMS mines API usage examples in the form of source code snippets, from client code. It uses clustering techniques and summarization algorithm to mine useful, concise, and readable snippets.</p>
-          <p><a class="btn btn-default" href="/clams/about/">View details &raquo;</a></p>
-        </div>
-        <div class="col-lg-4">
-          <h2>Documentation</h2>
-          <p>Here you will find a link to the source code of CLAMS as well as installation and usage instructions.</p>
-          <p><a class="btn btn-default" href="/clams/documentation/">View details &raquo;</a></p>
-       </div>
-        <div class="col-lg-4">
-          <h2>User Survey</h2>
-          <p>An overview of the pilot user survey conducted in a team of 5 Java developers at Hotels.com to evaluate whether our approach can be useful when developing software.</p>
-          <p><a class="btn btn-default" href="/clams/user-survey/">View details &raquo;</a></p>
-        </div>
-      </div>
+      <h1 id="about">About CLAMS</h1>
+      <p>
+        CLAMS (<b>CL</b>ustering for <b>A</b>pi <b>M</b>ining of <b>S</b>nippets) is an approach for mining API usage examples that lies between snippet and se- quence mining methods, which ensures lower complexity and thus could apply more readily to other languages.
+      </p>
+      <p>
+        <img src="../img/clams.png" class="img-responsive clams-img">
+      </p>
 
-      <hr>
-    </div> <!-- /container -->
+      <blockquote class="blockquote-reverse">
+        <p>The system generates clear and concise snippets which would be easy to follow and useful when using an API you are unfamiliar with.</p>
+        <p>The system is great and I think it would be very useful particularly in discovering clients of our APIs!</p>
+        <footer>see our <a href="/clams/user-survey/">user survey</a></footer>
+      </blockquote>
+    </div>
 
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
   </body>
 </html>

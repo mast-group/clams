@@ -1,83 +1,89 @@
+
 <!DOCTYPE html>
-<html>
-<head>
-<title>CLAMS User Survey</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    min-width: 550px;
-}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="ico/favicon.png">
 
-.content {
-	max-width: 700px;
-	margin: auto;
-	background: white;
-	padding: 10px;
-	text-align: justify;
-}
+    <title>CLAMS Webpage</title>
 
-img {
-    padding: 0;
-    display: block;
-    margin: 0 auto;
-    max-height: 100%;
-    max-width: 100%;
-    width:auto;
-    height:auto;
-}
-</style>
-</head>
-<body>
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.css" rel="stylesheet">
 
-<div class="content">
-	<h1>CLAMS User Survey</h1>
-	<p> This page contains the user survey of CLAMS, a system for mining API usage snippets
-		from client source code. You can check the source code repository of CLAMS
-		<a target="_blank" href="https://github.com/mast-group/clams">here</a>
-		to find out more about our approach.
-	</p>
-	<p> We conducted a user survey in a team of 5 Java developers of Hotels.com to evaluate
-		whether our approach can be useful when developing software. We executed CLAMS on a
-		set of internal company libraries and indexed the extracted API snippets for each
-		library. After that, we isolated the API calls and created a simple web interface
-		to allow developers to see the snippets that are relevant to each API call. For
-		each API call, developers were presented with the most relevant snippets, each
-		accompanied by a link to the originating source code and a list of its API call
-		sequences. Upon reviewing the top 10 most frequent API calls of the team's 3 most
-		used libraries (i.e.~30 snippets in total), the developers had to answer 4
-		questions using a Likert five-point scale: Strongly Agree, Agree, Neutral, Disagree,
-		and Strongly Disagree. All team members were familiar with the usage patterns of
-		these libraries. The figure below includes the questions asked and summarizes the
-		responses.
-	</p>
-	<p>
-		<img src="UserSurvey.svg" alt="usersurvey" align="middle">
-	</p>
-	<p> All participants agree or strongly agree that the snippets effectively summarize the
-		source code (Q1), while 80% of them also deems the API coverage as effective (Q2)
-		and the same percentage shows preference for snippets over sequences (Q3).
-		Furthermore, for Q1, participants were asked to characterize each snippet
-		separately as an effective summary of the corresponding source code or not. In this
-		question, each participant rated at least 24 out of 30 snippets in total as
-		effective summaries. Similarly, for Q2, developers also had to decide whether the
-		snippets of each of the 3 libraries effectively cover it, a question that was
-		answered positively by 80% of the participants for all 3 libraries.
-	</p>
-	<p> Finally, the overall reception of our system was quite favorable, as all
-		participating developers would consider using our system CLAMS for finding API usage
-		examples (Q4). A few indicative comments from developers are the following:
-		<ul>
-			<li>Developer 1: <i>The system generates clear and concise snippets which would be
-				easy to follow and useful when using an API you are unfamiliar with.</i>
-			</li>
-			<li>Developer 2: <i>The system is great and I think it would be very useful
-				particularly in discovering clients of our APIs.</i>
-			</li>
-	</ul>
-</div>
+    <!-- Custom styles for this template -->
+    <link href="../css/clams.css" rel="stylesheet">
 
-</body>
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">CLAMS</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="/clams/about/">About</a></li>
+            <li><a href="/clams/documentation/">Documentation</a></li>
+            <li><a href="/clams/data/">Data</a></li>
+            <li><a href="/clams/user-survey/">User Survey</a></li>
+            <li><a href="/clams/team-members/">Team Members</a></li>
+          </ul>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>CLAMS</h1>
+        <p>A novel approach for mining API Usage Examples in the form of source code snippets, from client code</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <h1 id="user-survey">User Survey</h1>
+      <p> This page contains the user survey of CLAMS, a system for mining API usage snippets from client source code. You can check the source code repository of CLAMS <a target="_blank" href="https://github.com/mast-group/clams">here</a> to find out more about our approach.
+      </p>
+      <p> We conducted a user survey in a team of 5 Java developers of Hotels.com to evaluate whether our approach can be useful when developing software. We executed CLAMS on a set of internal company libraries and indexed the extracted API snippets for each library. After that, we isolated the API calls and created a simple web interface to allow developers to see the snippets that are relevant to each API call. For each API call, developers were presented with the most relevant snippets, each accompanied by a link to the originating source code and a list of its API call sequences. Upon reviewing the top 10 most frequent API calls of the team's 3 most used libraries (i.e.~30 snippets in total), the developers had to answer 4 questions using a Likert five-point scale: Strongly Agree, Agree, Neutral, Disagree, and Strongly Disagree. All team members were familiar with the usage patterns of these libraries. The figure below includes the questions asked and summarizes the responses.
+      </p>
+      <p>
+        <img src="../img/user_survey.svg" class="img-responsive survey-img">
+      </p>
+      <p> All participants agree or strongly agree that the snippets effectively summarize the source code (Q1), while 80% of them also deems the API coverage as effective (Q2) and the same percentage shows preference for snippets over sequences (Q3). Furthermore, for Q1, participants were asked to characterize each snippet separately as an effective summary of the corresponding source code or not. In this question, each participant rated at least 24 out of 30 snippets in total as effective summaries. Similarly, for Q2, developers also had to decide whether the snippets of each of the 3 libraries effectively cover it, a question that was answered positively by 80% of the participants for all 3 libraries.
+      </p>
+      <p> Finally, the overall reception of our system was quite favorable, as all participating developers would consider using our system CLAMS for finding API usage examples (Q4). A few indicative comments from developers are the following:
+      </p>
+      <blockquote class="blockquote-reverse">
+        <p>Developer 1: <i>The system generates clear and concise snippets which would be
+            easy to follow and useful when using an API you are unfamiliar with.</i></p>
+        <p>Developer 2: <i>The system is great and I think it would be very useful
+            particularly in discovering clients of our APIs.</i></p>
+      </blockquote>
+  </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+  </body>
 </html>
