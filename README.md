@@ -5,7 +5,13 @@ CLAMS is an approach for mining API source code snippets that lies between snipp
 This is an implementation of the API miner from our paper:
 
 ```
-To be added
+@inbook{katirtzis2018clams,
+  title={Summarizing Software API Usage Examples using Clustering Techniques},
+  author={Nikolaos Katirtzis and Themistoklis Diamantopoulos and Charles Sutton},
+  year={2018},
+  booktitle={Proceedings of the 21st International Conference on Fundamental Approaches to Software Engineering}
+}
+
 ```
 
 ## Structure of the project
