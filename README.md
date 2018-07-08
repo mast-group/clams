@@ -83,3 +83,7 @@ python main.py
 ```
 
 The results will be stored in the `results` directory.
+
+## License
+
+This code is released under the Apache 2.0 license. Other licenses are available on request.
