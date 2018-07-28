@@ -17,7 +17,9 @@ def load_arff(arff_file_path, omit=6):
     :type arff_file_path: str
     :param arff_file_path: path of arff file
     :type omit: int
-    :param omit: number of lines to be omitted from the dataset file
+    :param omit: number of lines to be omitted from the arff file
+    :return callerFile: filename of the caller
+    :return callerPackage: package name of the caller
     :return caller: a list of client methods (callers)
     :return calls: a list of API method called by the corresponding client method
     """
@@ -236,7 +238,7 @@ def delete_files_recurs(directory, extension):
 def count_dir_files(directory, extension):
     cnt = 0
     for dirpath, dirnames, filenames in os.walk(directory):
-        for filename in [f for f in filenames if f.endswith(extension)]:
+        for _ in [f for f in filenames if f.endswith(extension)]:
             cnt += 1
     return cnt
 
@@ -248,3 +250,18 @@ def copy_dir_files(src, dst):
         if exc.errno == errno.ENOTDIR:
             shutil.copy(src, dst)
         else: raise
+
+
+def create_calls_files_map(directory, ranked_files_json, calls_files_json):
+    ranked_files_path = os.path.join(directory, ranked_files_json)
+    calls_files_map_path = os.path.join(directory, calls_files_json)
+    with open(ranked_files_path) as infile:
+        data = json.load(infile)
+
+    calls = {}
+    for i, d in enumerate(data):
+        for call in d['calls']:
+            calls.setdefault(call, []).append((i, d['name']))
+
+    with open(calls_files_map_path, 'w') as outfile:
+        json.dump(calls, outfile)

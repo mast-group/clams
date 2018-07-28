@@ -1,24 +1,26 @@
 import os
 import re
-from lxml import etree
 
+from lxml import etree
 
 namespaces = {'src': 'http://www.srcML.org/srcML/src'}
 
-def get_callers_info(callers_file, callers_package, callers, res_dir):
+
+def get_callers_info(callers_file, callers_package, callers):
     """
     Tries to create a map between the top callers and its associated file, using a best effort approach, by parsing the
     package declaration, in case this is need. If a file matches to a caller in the dataset, it retrieves any required
     information for the caller, and stores it to a dictionary. This includes the package,class,method and file names.
 
+    :type callers_file: list
+    :param callers_file: filename of the callers
+    :type callers_package: list
+    :param callers_package: package name of the callers
     :type callers: list
     :param callers: a list containing the top callers of each cluster
-    :type res_dir: string
-    :param res_dir: the current session's results directory
     :return a dictionary which is the map between top callers and their associated files, containing any required
     information
     """
-    #xml_dir = os.path.join(res_dir, 'xmlFiles')
     callers_info = {}
     for caller_id in range(len(callers)):
         caller = callers[int(caller_id)]
@@ -27,14 +29,11 @@ def get_callers_info(callers_file, callers_package, callers, res_dir):
             classname = package_class.rsplit(callers_package[caller_id] + '.', 1)[1]
         else:
             classname = package_class
-        caller_info =  {'id': caller_id, 'package': callers_package[caller_id], 'classname': classname, 'method': method,
-             'filename': callers_file[caller_id]}
-
-        #get_caller_info(caller_info, xml_dir)
+        caller_info = {'id': caller_id, 'package': callers_package[caller_id], 'classname': classname, 'method': method,
+                       'filename': callers_file[caller_id]}
 
         callers_info[caller] = caller_info
     return callers_info
-
 
 
 def get_caller_info(caller_info, xml_dir):
@@ -53,7 +52,7 @@ def get_caller_info(caller_info, xml_dir):
 
     files = [f[:-4] for f in os.listdir(xml_dir) if re.match(caller_info['classname'] + '(_\d+)?' + '.xml', f)]
     found = False
-    while caller_info['package'] > 0 and found==False:
+    while caller_info['package'] > 0 and found == False:
         # found files with this classname
         # check if this is the file we are looking for, using its package declaration statement
         if len(files) > 0:
@@ -129,6 +128,9 @@ def find_target_client(filepath, package):
 
 
 def itertext(self):
+    """
+    Traverses an xml element iteratively.
+    """
     tag = self.tag
     if not isinstance(tag, str) and tag is not None:
         return

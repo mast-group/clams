@@ -1,7 +1,7 @@
 import os
 from lxml import etree
 
-from apisummariser.helper import filefunctions
+from src.helper import filefunctions
 from summarise import Summariser
 
 
@@ -154,7 +154,7 @@ class SnippetGenerator:
               visit its parent, until the requested depth has been achieved
             - Having elements of the same depth, visit their parents until a common parent has been identified. The
               worst case scenario retrieves the root of the xml file.
-        Note: not used in the actual implementation
+        Note: not used in the actual implementation as a summarisation algorithm has been implemented for this purpose.
 
         :type root: Element
         :param root: the root of the xml document

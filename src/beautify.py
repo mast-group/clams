@@ -1,8 +1,8 @@
-import os
 import gc
+import os
 import subprocess
 
-from apisummariser.helper import filefunctions
+from src.helper import filefunctions
 
 
 def beautify_examples(beautifier_path, res_dir):
@@ -11,14 +11,16 @@ def beautify_examples(beautifier_path, res_dir):
 
     :type beautifier_path: string
     :param beautifier_path: the filepath of the astyle formatter's executable
-    :type res_dir: the current session's results directory
-    :param res_dir:
+    :type res_dir: string
+    :param res_dir: the current session's results directory
     :return:
     """
     examples_paths = os.path.join(res_dir, 'medoids', '*.java')
     gc.collect()
-    p = subprocess.Popen([beautifier_path, '--style=java', '--delete-empty-lines','--recursive', examples_paths],
-                         stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    print beautifier_path
+    p = subprocess.Popen(
+        [beautifier_path, '--style=java', '-xe', '-s2', '-p', '-H', '-U', '--recursive', examples_paths],
+        stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     p.communicate()[0]
 
     orig_paths = os.path.join(res_dir, 'medoids')

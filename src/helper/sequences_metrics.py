@@ -1,4 +1,5 @@
 from __future__ import division
+
 from difflib import SequenceMatcher
 
 
@@ -222,17 +223,17 @@ def levenshtein(seq1, seq2):
     n, m = len(seq1), len(seq2)
     if n > m:
         # Make sure n <= m, to use O(min(n,m)) space
-        seq1,seq2 = seq2,seq1
-        n,m = m,n
+        seq1, seq2 = seq2, seq1
+        n, m = m, n
 
-    current = range(n+1)
-    for i in range(1,m+1):
-        previous, current = current, [i]+[0]*n
-        for j in range(1,n+1):
-            add, delete = previous[j]+1, current[j-1]+1
-            change = previous[j-1]
-            if seq1[j-1] != seq2[i-1]:
-                change = change + 1
+    current = range(n + 1)
+    for i in range(1, m + 1):
+        previous, current = current, [i] + [0] * n
+        for j in range(1, n + 1):
+            add, delete = previous[j] + 1, current[j - 1] + 1
+            change = previous[j - 1]
+            if seq1[j - 1] != seq2[i - 1]:
+                change += 1
             current[j] = min(add, delete, change)
 
     dist = current[n] / max(n, m)
@@ -240,5 +241,11 @@ def levenshtein(seq1, seq2):
 
 
 def is_subseq(seq1, seq2):
+    """
+    Checks whether se1 is a subsequence of seq2.
+    :param seq1: a sequence
+    :param seq2: a sequence
+    :return: true, if seq1 is a subsequence of seq2
+    """
     it = iter(seq2)
     return all(any(c == ch for c in it) for ch in seq1)

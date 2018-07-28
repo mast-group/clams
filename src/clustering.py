@@ -3,12 +3,16 @@ from hdbscan import HDBSCAN
 from sklearn.cluster import DBSCAN
 from sklearn.cluster import KMeans
 from sklearn.cluster import MeanShift
-from kmedoids import KMedoids
+from src.helper.sequences_metrics import is_subseq
 
-from apisummariser.helper.sequences_metrics import is_subseq
+from kmedoids import KMedoids
 
 
 class ClusteringEngine:
+    """
+    Clusters the API call sequences using one of the clustering algorithms that have been implemented/integrated into
+    the system.
+    """
 
     def __init__(self, callers, calls, dist_mat):
         """
@@ -30,15 +34,16 @@ class ClusteringEngine:
         self.centers_l = []
         self.f_vector = np.zeros((len(self.callers), 2))
 
-
     def restart(self):
+        """
+        Clears clustering engine data.
+        """
         self.clusters = {}
         self.clusters_ids = {}
         self.labels = {}
         self.labels_l = np.zeros(len(self.callers), dtype=np.int)
         self.centers = {}
         self.centers_l = []
-
 
     def run_dbscan(self, params):
         """
@@ -63,7 +68,6 @@ class ClusteringEngine:
 
         self.form_dbscan_results()
 
-
     def run_hdbscan(self, params):
         """
         Performs clustering using the HDBSCAN algorithm.
@@ -85,7 +89,6 @@ class ClusteringEngine:
 
         self.form_dbscan_results()
 
-
     def run_kmedoids(self, params):
         """
         Performs clustering using the k-medoids algorithm.
@@ -99,7 +102,6 @@ class ClusteringEngine:
         self.centers_l = kmedoids.cluster_centers_
         self.labels_l = kmedoids.labels_
         self.form_kmedoids_results()
-
 
     def run_kmeans(self, params):
         """
@@ -115,7 +117,6 @@ class ClusteringEngine:
         self.centers_l = kmeans.cluster_centers_
         self.form_kmedoids_results()
 
-
     def run_meanshift(self):
         """
         Runs the Mean Shift algorithm. No parameters used in this algorithm.
@@ -129,14 +130,13 @@ class ClusteringEngine:
         print("number of estimated clusters : %d" % self.n_clusters_)
         self.form_dbscan_results()
 
-
     def run_overlapping(self):
         """
         Runs a naive overlapping algorithm, which creates a cluster for each distinct sequence, and assigns any of
         its (super)sequences to the cluster.
         """
         self.cluster_seqs = {}
-        self.n_clusters_= -1
+        self.n_clusters_ = -1
         for i in range(len(self.calls)):
             if self.calls[i] not in self.cluster_seqs.values():
                 l_ids = set()
@@ -152,7 +152,6 @@ class ClusteringEngine:
                     self.cluster_seqs[str(self.n_clusters_)] = self.calls[i]
                     self.clusters_ids[str(self.n_clusters_)] = list(l_ids)
                     self.clusters[str(self.n_clusters_)] = list(l_callers)
-
 
     def form_dbscan_results(self):
         """
@@ -183,7 +182,6 @@ class ClusteringEngine:
                     max_id = v
             self.centers[key] = max_id
 
-
     def form_kmedoids_results(self):
         """
         Fills self.clusters and self.labels based on labels and callers data.
@@ -200,7 +198,6 @@ class ClusteringEngine:
 
         for i in range(self.n_clusters_):
             self.centers[str(i)] = self.centers_l[i]
-
 
     def perform_clustering(self, algorithm, params):
         """

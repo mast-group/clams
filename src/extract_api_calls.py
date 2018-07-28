@@ -1,5 +1,6 @@
 from subprocess import Popen, PIPE
 
+
 class APICallExtractor:
     def __init__(self, extractor_path):
         """
@@ -15,9 +16,10 @@ class APICallExtractor:
         :return:
         """
         args = ['java', '-jar', self.extractor_path, '-ld', params['lib-dir'], '-ln', params['lib-name'],
-                   '-pn', params['package-name'], '-of', params['out-file']]
+                '-pn', params['package-name'], '-of', params['out-file']]
         if params['resolve-wildcards']:
-            args.extend(['-rw', '-ed', params['example-dir'], '-nd', params['namespace-dir']])
+            args.extend(
+                ['-rw', '-ed', params['example-dir'], '-nd', params['namespace-dir']])
         p = Popen(args, stdout=PIPE, stdin=PIPE, stderr=PIPE)
 
         for line in p.stdout:

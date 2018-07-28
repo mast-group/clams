@@ -2,7 +2,7 @@ import os
 import subprocess
 from lxml import etree
 
-from apisummariser.helper import filefunctions
+from src.helper import filefunctions
 
 
 class ASTExtractor:
@@ -25,14 +25,12 @@ class ASTExtractor:
         self.class_vars = {}
         self.namespaces = {'src': 'http://www.srcML.org/srcML/src'}
 
-
     def extract_asts(self):
         """
         Calls the appropriate functions to extract the ASTs.
         """
         self.parse_files()
         self.split_xml()
-
 
     def parse_files(self):
         """
@@ -46,7 +44,6 @@ class ASTExtractor:
         p.communicate()[0]
         assert os.path.isfile(self.xml_path)
 
-
     def split_xml(self):
         """
         Generates single xml files from the merged xml file.
@@ -58,7 +55,6 @@ class ASTExtractor:
             content = etree.tostring(unit)
             src_filepath = unit.get('filename')
             filefunctions.write_file_srcml(src_filepath, self.res_dir, content)
-
 
     def create_methods_xml(self, callers_info):
         """
@@ -82,7 +78,6 @@ class ASTExtractor:
             filefunctions.write_method_xml(self.res_dir, value['filename'], value['method'],
                                            etree.tostring(method_element))
 
-
     @staticmethod
     def form_method_xpath(classname, method):
         """
@@ -105,7 +100,6 @@ class ASTExtractor:
         else:
             xpath_query += "src:function[src:name='" + method + "']"
         return xpath_query
-
 
     def get_class_vars(self, root, classname):
         """
@@ -132,7 +126,6 @@ class ASTExtractor:
                     class_vars_decl[name] = {'type': type}
         return class_vars_decl
 
-
     def get_all_vars(self, root, method_element, class_vars):
         """
         Finds any variables declared at any level of the source code, before the target client method, and adds them
@@ -148,7 +141,7 @@ class ASTExtractor:
         :param class_vars: stores the class variables that have been found so far
         """
         for node in root.getiterator():
-            if node==method_element:
+            if node == method_element:
                 break
 
             if node.tag.split('}', 1)[1] == 'decl_stmt':
@@ -159,7 +152,6 @@ class ASTExtractor:
                     name = name_l[0].text
                     if type is not None and name is not None:
                         class_vars[name] = {'type': type}
-
 
     def find_method_element(self, root, xpath_query, caller):
         """
@@ -196,7 +188,6 @@ class ASTExtractor:
         # this ensures that the xml is well-formed
         method_element.tail = None
         return method_element
-
 
     def find_calls_xpath(self, caller):
         """

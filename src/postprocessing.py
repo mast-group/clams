@@ -1,4 +1,5 @@
 from Queue import heapq
+
 import numpy as np
 
 
@@ -50,4 +51,3 @@ def get_top_callers(clusterer, params):
                 top_callers[c_id].append({'dist':-dist, 'caller':caller, 'id':caller_id})
 
     return top_callers
-

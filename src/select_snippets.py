@@ -1,17 +1,17 @@
 from __future__ import division
+
 import os
 import time
-import numpy as np
-from lxml import etree
-from tqdm import tqdm
 from subprocess import Popen, PIPE, STDOUT
 
-from apisummariser.helper import filefunctions
+import numpy as np
+from lxml import etree
+from src.helper import filefunctions
+from tqdm import tqdm
 
 
 class SnippetSelector:
-
-    def __init__(self, res_dir, apted_path, clusters, snippets_name_id_map):
+    def __init__(self, res_dir, apted_path, parser_path, clusters, snippets_name_id_map):
         """
         :type res_dir: str
         :param res_dir: the directory where the results of the current session are stored
@@ -25,7 +25,7 @@ class SnippetSelector:
         self.clusters = clusters
         self.selected_snippets_map = {}
         self.snippets_name_id_map = snippets_name_id_map
-
+        self.parser_path = parser_path
 
     def perform_snippet_selection(self):
         """
@@ -34,7 +34,6 @@ class SnippetSelector:
         self.find_representatives()
         filefunctions.write_json(self.res_dir, 'medoids_map', self.selected_snippets_map)
         self.snippets_source()
-
 
     def find_representatives(self):
         """
@@ -50,8 +49,7 @@ class SnippetSelector:
                 sum_lev = np.sum(sim_mat, axis=1)
                 minindex = sum_lev.argmin()
                 medoid_calls = self.snippets_name_id_map[str(i)][patterns[minindex]]
-                self.selected_snippets_map[str(i)] = [{'filename':patterns[minindex], 'calls':medoid_calls}]
-
+                self.selected_snippets_map[str(i)] = [{'filename': patterns[minindex], 'calls': medoid_calls}]
 
     def compute_distances(self, patterns, cluster_id):
         """
@@ -77,12 +75,12 @@ class SnippetSelector:
                 self.form_transaction(root2, trans2_l)
                 trans1_s = ''.join(trans1_l)
                 trans2_s = ''.join(trans2_l)
-                p = Popen(['java', '-jar', self.apted_path, '-t', trans1_s, trans2_s], stdout=PIPE, stdin=PIPE, stderr=PIPE)
+                p = Popen(['java', '-jar', self.apted_path, '-t', trans1_s, trans2_s], stdout=PIPE, stdin=PIPE,
+                          stderr=PIPE)
                 dist = p.communicate()[0].strip()
                 dist_mat[i][j] = float(dist)
                 dist_mat[j][i] = dist_mat[i][j]
         return dist_mat
-
 
     def form_transaction(self, root, trans):
         """
@@ -101,7 +99,6 @@ class SnippetSelector:
             self.form_transaction(elem, trans)
         trans.append('}')
 
-
     def snippets_source(self):
         """
         Retrieves the source code for each of the selected snippets. It transforms their associated xml files back to
@@ -109,21 +106,12 @@ class SnippetSelector:
         """
         medoids_dir = os.path.join(self.res_dir, 'medoids')
         filefunctions.make_sure_dir_exists(medoids_dir)
+        time.sleep(2)
         for key, value in tqdm(self.selected_snippets_map.iteritems()):
             filefunctions.make_sure_dir_exists(os.path.join(medoids_dir, str(key)))
             for medoid in value:
                 medoid_path = os.path.join(self.res_dir, 'patternFiles', str(key), medoid['filename'])
                 filepath = os.path.join(medoids_dir, str(key), medoid['filename'][:-4] + '.java')
-                p = Popen(['srcml', medoid_path, '-o', filepath],
-                                     stdout=PIPE, stderr=STDOUT)
+                p = Popen([self.parser_path, medoid_path, '-o', filepath],
+                          stdout=PIPE, stderr=STDOUT)
                 p.communicate()[0]
-                cnt = 0
-                while not os.path.exists(filepath):
-                    cnt += 1
-                    time.sleep(1)
-                    if cnt > 3:
-                        filefunctions.delete_dir(os.path.join(medoids_dir, str(key)))
-                        break
-                if os.path.exists(filepath):
-                    if os.stat(filepath).st_size == 0:
-                        filefunctions.delete_dir(os.path.join(medoids_dir, str(key)))

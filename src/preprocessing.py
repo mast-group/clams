@@ -1,24 +1,23 @@
+import re
+
 import numpy as np
 from sklearn import manifold
+from src.helper import sequences_metrics
 from tqdm import tqdm
-
-from apisummariser.helper import sequences_metrics
 
 
 class Preprocessor:
-
     def __init__(self, callers_file, callers_package, callers, calls):
-        '''
-        :type callers: list
+        """
+        :param callers_file:
+        :param callers_package:
         :param callers: a list of caller methods
-        :type calls: list of lists
         :param calls: a list of method call sequences
-        '''
+        """
         self.callers_file = callers_file
         self.callers_package = callers_package
         self.callers = callers
         self.calls = calls
-
 
     def perform_preprocessing(self, mode, params):
         """
@@ -29,8 +28,9 @@ class Preprocessor:
         :type params: dictionary
         :param params: {'metric','remove_singletons','remove_pseudo_singletons','remove_unique'}
         """
-        params_clean = {'remove_singletons':params['remove_singletons'],
-                        'remove_pseudo_singletons':params['remove_pseudo_singletons']}
+        params_clean = {'remove_singletons': params['remove_singletons'],
+                        'remove_pseudo_singletons': params['remove_pseudo_singletons'],
+                        'call_name': params['call_name']}
         self.clean_data(params_clean)
         if mode == 'vector':
             self.create_vector()
@@ -42,23 +42,32 @@ class Preprocessor:
         else:
             raise NotImplementedError
 
-
     def clean_data(self, params):
         """
         Cleans the dataset, based on the specified option. Note that the 'remove_pseudo_singletons' option should be
         combined with the 'remove_singletons' one.
 
         :type params: dictionary
-        :param params: {'remove_singletons','remove_pseudo_singletons'}
+        :param params: {'remove_singletons','remove_pseudo_singletons', 'call_name'}
         """
         upd_callers_file = []
         upd_callers_package = []
         upd_callers = []
         upd_calls = []
 
+        reg = params['call_name']
+        pattern = re.compile(reg)
+
         for i in range(len(self.calls)):
             # remove duplicate callers and sequences with single/identical API calls (includes singleton sequences)
             if self.callers[i] not in upd_callers:
+                # exclude api calls that are not included in services
+                api_calls = []
+                for api_call in self.calls[i]:
+                    class_filename = '.'.join(api_call.split('.')[-2:])
+                    if pattern.match(class_filename):
+                        api_calls.append(api_call)
+
                 if params['remove_singletons']:
                     if params['remove_pseudo_singletons']:
                         if self.calls[i].count(self.calls[i][0]) != len(self.calls[i]):
@@ -73,15 +82,15 @@ class Preprocessor:
                             upd_callers.append(self.callers[i])
                             upd_calls.append(self.calls[i])
                 else:
-                    upd_callers_file.append(self.callers_file[i])
-                    upd_callers_package.append(self.callers_package[i])
-                    upd_callers.append(self.callers[i])
-                    upd_calls.append(self.calls[i])
+                    if len(api_calls) > 0:
+                        upd_callers_file.append(self.callers_file[i])
+                        upd_callers_package.append(self.callers_package[i])
+                        upd_callers.append(self.callers[i])
+                        upd_calls.append(api_calls)
         self.callers_file = upd_callers_file
         self.callers_package = upd_callers_package
         self.callers = upd_callers
         self.calls = upd_calls
-
 
     def get_dist_func(self, metric):
         """
@@ -114,7 +123,6 @@ class Preprocessor:
 
         return dist_func
 
-
     def compute_similarity(self, dist_func):
         """
         Creates a distance matrix based on the computed similarities between sequences (API calls).
@@ -127,7 +135,6 @@ class Preprocessor:
             for j in range(i + 1):
                 self.dist_mat[i][j] = dist_func(self.calls[i], self.calls[j])
                 self.dist_mat[j][i] = self.dist_mat[i][j]
-
 
     def remove_outliers(self):
         """
@@ -147,7 +154,6 @@ class Preprocessor:
             self.calls.pop(i)
         print 'Data points after removing outliers: ' + str(len(self.callers))
 
-
     def dist_to_vec(self, params):
         """
         Generates a feature vector given a distance matrix and based on the t-SNE algorithm.
@@ -159,7 +165,6 @@ class Preprocessor:
                               metric="precomputed", random_state=params['random_state'])
         np.set_printoptions(suppress=True)
         self.f_vector = model.fit_transform(self.dist_mat)
-
 
     def create_vector(self):
         """
@@ -178,7 +183,6 @@ class Preprocessor:
                     self.f_vector[int(caller_id)][int(call_id)] = 1
         print 'Non-zero elements:' + str(np.count_nonzero(self.f_vector))
 
-
     def freq_idx(self):
         seen_el = []
         seen_idx = []
@@ -188,7 +192,6 @@ class Preprocessor:
                     seen_el.append(self.calls[j])
                     seen_idx.append(j)
         return seen_idx
-
 
     def non_identical_seqs(self):
         """

@@ -1,7 +1,9 @@
 from __future__ import division
-import numpy as np
-import random
+
 import copy
+import random
+
+import numpy as np
 
 
 class KMedoids:
@@ -21,12 +23,10 @@ class KMedoids:
     """
 
     def __init__(self, n_clusters, max_iter, init, criterion):
-
         self.n_clusters = n_clusters
         self.max_iter = max_iter
         self.init = init
         self.criterion = criterion
-
 
     def fit(self, X):
         """
@@ -36,8 +36,8 @@ class KMedoids:
         :param X: the distance matrix to be used
         :return:
         """
-        self.cluster_centers_, self.labels_ = k_medoids(X, n_clusters = self.n_clusters, init = self.init,
-                                                        max_iter = self.max_iter, criterion = self.criterion)
+        self.cluster_centers_, self.labels_ = k_medoids(X, n_clusters=self.n_clusters, init=self.init,
+                                                        max_iter=self.max_iter, criterion=self.criterion)
         return self
 
 
@@ -110,7 +110,6 @@ def k_medoids(X, n_clusters, init, max_iter, criterion):
 
     labels = form_labels(X, clusters_ids_new)
     return medoid_ids, labels
-
 
 
 def form_labels(X, clusters_ids):
@@ -196,7 +195,7 @@ def kmedoids_update_clusters(X, n_clusters, medoid_ids, clusters_ids):
     # determine clusters, i.e. arrays of data indices
     # argmin returns the cluster id of the closest medoid
     J = np.argmin(X[:, medoid_ids], axis=1)
-    #J[medoid_ids] = range(n_clusters)
+    # J[medoid_ids] = range(n_clusters)
 
     for kappa in range(n_clusters):
         clusters_ids[kappa] = np.where(J == kappa)[0]

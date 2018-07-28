@@ -1,12 +1,11 @@
 import os
 from shutil import copyfile
 
-from apisummariser.helper.filefunctions import make_sure_dir_exists
-from apisummariser.helper.sequences_metrics import is_subseq
+from src.helper.filefunctions import make_sure_dir_exists
+from src.helper.sequences_metrics import is_subseq
 
 
 class Ranker:
-
     def __init__(self, res_dir, snippets_map, calls):
         """
         :type res_dir: str
@@ -21,7 +20,6 @@ class Ranker:
         self.calls = calls
         self.snippets_rank = []
 
-
     def rank_snippets(self):
         """
         Ranks mined snippets based on their support in the original dataset. We claim that a mined snippet is support by
@@ -33,11 +31,10 @@ class Ranker:
             support = 0
             seq1 = value[0]['calls']
             for seq2 in self.calls:
-                if is_subseq(seq1,seq2):
-                    support+= 1
-            snippets_info.append({'name':name, 'support': support, 'calls': value[0]['calls']})
+                if is_subseq(seq1, seq2):
+                    support += 1
+            snippets_info.append({'name': name, 'support': support, 'calls': value[0]['calls']})
         self.snippets_rank = sorted(snippets_info, key=lambda k: k['support'], reverse=True)
-
 
     def copy_ranked(self):
         """

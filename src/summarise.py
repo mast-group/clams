@@ -3,7 +3,6 @@ import re
 
 
 class Summariser:
-
     def __init__(self, namespaces):
         """
         :type namespaces: dictionary
@@ -12,9 +11,8 @@ class Summariser:
         self.namespaces = namespaces
 
         self.statements = ['return', 'assert', 'throw', 'empty_stmt', 'decl_stmt', 'expr_stmt']
-        self.controls = ['condition', 'control', 'case','default']
+        self.controls = ['condition', 'control', 'case', 'default']
         self.blocks = ['if', 'while', 'for', 'do', 'while', 'switch', 'try', 'function', 'class', 'enum']
-
 
     def summarise(self, root, calls, vars_decl, params):
         """
@@ -94,14 +92,14 @@ class Summariser:
                 elem.tail = '\n'
                 par = elem.getparent()
                 pos = par.index(elem)
-                par.insert(pos+1,comment)
+                par.insert(pos + 1, comment)
 
         # block_root = self.remove_empty_lines(block_root)
 
         return block_root
 
-
-    def form_calls(self, calls):
+    @staticmethod
+    def form_calls(calls):
         """
         Retrieves the API method names from their fully qualified names.
 
@@ -117,7 +115,6 @@ class Summariser:
             methods.append(new_call)
         return methods
 
-
     def remove_comments(self, root):
         """
         Removes comments.
@@ -129,7 +126,6 @@ class Summariser:
         for elem in root.xpath(comment_stmt, namespaces=self.namespaces):
             elem.getparent().remove(elem)
 
-
     def replace_literals(self, root):
         """
         Replaces literals with their srcML type.
@@ -140,7 +136,6 @@ class Summariser:
         literals = self.find_literals()
         for elem in root.xpath(literals, namespaces=self.namespaces):
             elem.text = elem.get('type')
-
 
     def get_statements(self, root, methods):
         """
@@ -173,8 +168,8 @@ class Summariser:
 
         return all_non_api, api_stats
 
-
-    def form_calls_xpath(self, methods):
+    @staticmethod
+    def form_calls_xpath(methods):
         """
         Forms an XPath expression that looks for the API methods invoked in the client method.
 
@@ -185,7 +180,6 @@ class Summariser:
         join_calls = "' or .//src:name='".join(methods)
         xpath_query = ".//src:call[.//src:name='" + join_calls + "']"
         return xpath_query
-
 
     def get_vars(self, root, vars_decl):
         """
@@ -233,7 +227,6 @@ class Summariser:
                         if name in vars_decl:
                             del vars_decl[name]
 
-
     def get_api_writes(self, api_stats):
         """
         Finds the variables declared in API statements and stores them to a dictionary.
@@ -265,7 +258,6 @@ class Summariser:
 
         return vars_wrt
 
-
     def get_api_reads(self, vars_wrt, api_stats):
         """
         Checks whether the variables declared in API statements are used in other API statements after that point.
@@ -286,8 +278,7 @@ class Summariser:
                     break
         return vars_wrt
 
-
-    def add_decl(self, root, var_decls):
+    def add_decl(self, root, vars_decl):
         """
         Adds a declarement statement for each of the variables used in the summarised snippet, for which there exists
         no such statement. It basiccaly resolves variables type.
@@ -297,7 +288,7 @@ class Summariser:
         :type vars_decl: dictionary
         :param vars_decl: the variables declared at a previous point
         """
-        for name, attrs in var_decls.items():
+        for name, attrs in vars_decl.items():
             decl_stmt = etree.Element("{http://www.srcML.org/srcML/src}decl_stmt", nsmap=self.namespaces)
             decl_stmt.tail = '\n' + 8 * ' '
             declaration = etree.Element("{http://www.srcML.org/srcML/src}decl", nsmap=self.namespaces)
@@ -311,7 +302,6 @@ class Summariser:
 
             decl_stmt.append(declaration)
             root.insert(0, decl_stmt)
-
 
     def add_forward_comments(self, vars_wrt):
         """
@@ -330,8 +320,8 @@ class Summariser:
                 api_wrt_parent[-1].tail = '\n'
                 api_wrt_parent.append(comment)
 
-
-    def remove_stats(self, all_non_api):
+    @staticmethod
+    def remove_stats(all_non_api):
         """
         Removes non-API statements by iterating the tree in reverse order (reverse bottom-up pre-order traversal).
 
@@ -341,14 +331,14 @@ class Summariser:
         for i in range(len(all_non_api) - 1, -1, -1):
             all_non_api[i].getparent().remove(all_non_api[i])
 
-
-    def remove_empty_lines(self, block_root):
+    @staticmethod
+    def remove_empty_lines(block_root):
         """
         Removes empty lines in the summarised snippet.
         Note: not used in the actual implementation.
 
-        :type root: Element
-        :param root: the root of the block of the client method
+        :type block_root: Element
+        :param block_root: the root of the block of the client method
         :return block_root: the root of the updated tree
         """
         text = etree.tostring(block_root)
@@ -356,8 +346,8 @@ class Summariser:
         block_root = etree.fromstring(text).getroot()
         return block_root
 
-
-    def find_comment(self):
+    @staticmethod
+    def find_comment():
         """
         XPath expression to find comments.
 
@@ -366,8 +356,8 @@ class Summariser:
         xpath_query = ".//src:comment"
         return xpath_query
 
-
-    def find_empty_block(self):
+    @staticmethod
+    def find_empty_block():
         """
         XPath expression to find empty blocks.
 
@@ -376,8 +366,8 @@ class Summariser:
         xpath_query = ".//src:block[not (*)]"
         return xpath_query
 
-
-    def find_empty_case(self):
+    @staticmethod
+    def find_empty_case():
         """
         XPath expression to find empty blocks in 'case' statements.
 
@@ -386,8 +376,8 @@ class Summariser:
         xpath_query = ".//src:case"
         return xpath_query
 
-
-    def find_literals(self):
+    @staticmethod
+    def find_literals():
         """
         XPath expression to find literals.
 

@@ -3,18 +3,26 @@ import os
 import filefunctions
 
 
-def set_up(dataset):
+def set_up_project():
     paths = Paths()
     # remove previous results
-    paths.directory = os.path.join(os.getcwd(), 'results', dataset)
+    paths.directory = os.path.join(os.getcwd(), 'results')
     filefunctions.delete_dir(paths.directory)
     filefunctions.make_sure_dir_exists(paths.directory)
 
-    # set paths
+    # set library paths
     paths.extractor_path = os.path.join(os.getcwd(), 'libs', 'APICallExtractor.jar')
     paths.parser_path = os.path.join(os.getcwd(), 'libs', 'srcml', 'srcml')
     paths.apted_path = os.path.join(os.getcwd(), 'libs', 'APTED.jar')
     paths.beautifier_path = os.path.join(os.getcwd(), 'libs', 'astyle', 'astyle')
+
+    return paths
+
+def set_up_dataset(paths, dataset):
+    # remove previous results
+    paths.directory = os.path.join(os.getcwd(), 'results', dataset)
+    filefunctions.delete_dir(paths.directory)
+    filefunctions.make_sure_dir_exists(paths.directory)
 
     paths.client_dir_path = os.path.join(os.getcwd(), 'data', 'dataset', 'source', 'client_files', dataset)
     paths.example_dir_path = os.path.join(os.getcwd(), 'data', 'dataset', 'source', 'example_files', dataset)
