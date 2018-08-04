@@ -28,7 +28,7 @@ def main():
         print "Dataset loaded!\n"
 
         print "Preprocessing data..."
-        params_pre = {'metric': 'lcs', 'remove_singletons': False, 'remove_pseudo_singletons': False,
+        params_pre = {'metric': 'lcs', 'remove_singletons': True, 'remove_pseudo_singletons': True,
                       'remove_unique': False,
                       'call_name': '.*'}
         callers_file, callers_package, callers, calls, dist_mat, non_identical = \
