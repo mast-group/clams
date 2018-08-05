@@ -17,7 +17,6 @@ def beautify_examples(beautifier_path, res_dir):
     """
     examples_paths = os.path.join(res_dir, 'medoids', '*.java')
     gc.collect()
-    print beautifier_path
     p = subprocess.Popen(
         [beautifier_path, '--style=java', '-xe', '-s2', '-p', '-H', '-U', '--recursive', examples_paths],
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
