@@ -65,7 +65,7 @@ class Preprocessor:
                 api_calls = []
                 for api_call in self.calls[i]:
                     class_filename = '.'.join(api_call.split('.')[-2:])
-                    if pattern.match(class_filename):
+                    if re.search(pattern, class_filename):
                         api_calls.append(api_call)
 
                 if params['remove_singletons']:
